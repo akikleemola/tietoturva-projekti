@@ -8,7 +8,8 @@
     <h1>{{ note["title"] }}</h1>
 
     <pre>{{ note["content"] }}</pre>
-
+    <p><a href="/edit_note/{{ note['id'] }}">Edit</a></p>
+    <p><a href="/remove_note/{{ note['id'] }}">Delete</a></p>
     <p><a href="/">Home</a></p>
 </body>
 </html>

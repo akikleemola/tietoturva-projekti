@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search notes</title>
+</head>
+<body>
+    <h1>Search notes</h1>
+
+    <form action="/find_note" method="GET">
+        <p>
+            <label>
+                Search term:
+                <input type="text" name="query" value="{{ query }}">
+            </label>
+            <button type="submit">Search</button>
+        </p>
+    </form>
+
+    {% if query %}
+    <h2>Results</h2>
+
+    {% if results %}
+    <ul>
+        {% for note in results %}
+        <li>
+            <a href="/note/{{ note['id'] }}">
+                {{ note["title"] }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No notes found.</p>
+    {% endif %}
+
+    {% endif %}
+
+    <p><a href="/">Home</a></p>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete note</title>
+</head>
+<body>
+    <h1>Delete note</h1>
+
+    <p>Are you sure you want to delete "{{ note['title'] }}"?</p>
+
+    <form action="/remove_note/{{ note['id'] }}" method="POST">
+        <input type="hidden" name="csrf_token"
+               value="{{ session['csrf_token'] }}">
+
+        <button type="submit">Delete</button>
+    </form>
+
+    <p><a href="/note/{{ note['id'] }}">Cancel</a></p>
+</body>
+</html>

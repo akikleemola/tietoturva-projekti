@@ -62,6 +62,76 @@ def create_note():
 
     return redirect("/note/" + str(note_id))
 
+@app.route("/edit_note/<int:note_id>")
+def edit_note(note_id):
+    require_login()
+
+    note = notes.get_note(note_id)
+    if not note:
+        abort(404)
+
+    if note["user_id"] != session["user_id"]:
+        abort(403)
+
+    return render_template("edit_note.html", note=note)
+
+
+@app.route("/update_note", methods=["POST"])
+def update_note():
+    require_login()
+    check_csrf()
+
+    note_id = request.form["note_id"]
+    note = notes.get_note(note_id)
+    if not note:
+        abort(404)
+
+    if note["user_id"] != session["user_id"]:
+        abort(403)
+
+    title = request.form["title"]
+    content = request.form["content"]
+
+    notes.update_note(note_id, title, content)
+
+    return redirect("/note/" + str(note_id))
+
+
+@app.route("/remove_note/<int:note_id>", methods=["GET", "POST"])
+def remove_note(note_id):
+    require_login()
+
+    note = notes.get_note(note_id)
+    if not note:
+        abort(404)
+
+    if note["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "POST":
+        check_csrf()
+        notes.remove_note(note_id)
+        return redirect("/")
+
+    return render_template("remove_note.html", note=note)
+
+@app.route("/find_note")
+def find_note():
+    require_login()
+
+    query = request.args.get("query", "")
+
+    if query:
+        results = notes.find_notes(query, session["user_id"])
+    else:
+        results = []
+
+    return render_template(
+        "find_note.html",
+        query=query,
+        results=results
+    )
+
 @app.route("/register")
 def register():
     return render_template("register.html")

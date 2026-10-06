@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit note</title>
+</head>
+<body>
+    <h1>Edit note</h1>
+
+    <form action="/update_note" method="POST">
+        <p>
+            <label>
+                Title:<br>
+                <input type="text" name="title"
+                       value="{{ note['title'] }}">
+            </label>
+        </p>
+        <p>
+            <label>
+                Content:<br>
+                <textarea name="content" rows="10" cols="50">{{ note["content"] }}</textarea>
+            </label>
+        </p>
+
+        <input type="hidden" name="note_id"
+               value="{{ note['id'] }}">
+
+        <input type="hidden" name="csrf_token"
+               value="{{ session['csrf_token'] }}">
+
+        <button type="submit">Save changes</button>
+    </form>
+
+    <p><a href="/note/{{ note['id'] }}">Cancel</a></p>
+</body>
+</html>

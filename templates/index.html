@@ -9,7 +9,26 @@
 
     {% if "user_id" in session %}
     <p>Logged in as {{ session["username"] }}.</p>
+
+    <p><a href="/new_note">New note</a></p>
     <p><a href="/logout">Log out</a></p>
+
+    <h2>Your notes</h2>
+
+    {% if notes %}
+    <ul>
+        {% for note in notes %}
+        <li>
+            <a href="/note/{{ note['id'] }}">
+                {{ note["title"] }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You have no notes yet.</p>
+    {% endif %}
+
     {% else %}
     <p><a href="/login">Log in</a></p>
     <p><a href="/register">Create an account</a></p>

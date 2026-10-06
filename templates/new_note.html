@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New note</title>
+</head>
+<body>
+    <h1>New note</h1>
+
+    <form action="/create_note" method="POST">
+        <p>
+            <label>
+                Title:<br>
+                <input type="text" name="title">
+            </label>
+        </p>
+        <p>
+            <label>
+                Content:<br>
+                <textarea name="content" rows="10" cols="50"></textarea>
+            </label>
+        </p>
+
+        <input type="hidden" name="csrf_token"
+               value="{{ session['csrf_token'] }}">
+
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="/">Home</a></p>
+</body>
+</html>

@@ -1,16 +1,66 @@
 import secrets
+import notes
 
 from flask import Flask
-from flask import flash, redirect, render_template, request, session
+from flask import flash, redirect, render_template, request, session, abort
 
 import users
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
 
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    token = request.form.get("csrf_token")
+    if not token or token != session.get("csrf_token"):
+        abort(403)
+
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if "user_id" in session:
+        all_notes = notes.get_notes(session["user_id"])
+    else:
+        all_notes = []
+
+    return render_template("index.html", notes = all_notes)
+
+
+@app.route("/note/<int:note_id>")
+def show_note(note_id):
+    require_login()
+
+    note = notes.get_note(note_id)
+    if not note:
+        abort(404)
+
+    if note["user_id"] != session["user_id"]:
+        abort(403)
+
+    return render_template("show_note.html", note=note)
+
+
+@app.route("/new_note")
+def new_note():
+    require_login()
+    return render_template("new_note.html")
+
+
+@app.route("/create_note", methods=["POST"])
+def create_note():
+    require_login()
+    check_csrf()
+
+    title = request.form["title"]
+    content = request.form["content"]
+
+    user_id = session["user_id"]
+    note_id = notes.add_note(title, content, user_id)
+
+    return redirect("/note/" + str(note_id))
 
 @app.route("/register")
 def register():

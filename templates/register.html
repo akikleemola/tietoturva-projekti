@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Create an account</h1>
+
+    {% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
+
+    <form action="/create" method="POST">
+        <p>
+            <label>
+                Username:<br>
+                <input type="text" name="username" required>
+            </label>
+        </p>
+        <p>
+            <label>
+                Password:<br>
+                <input type="password" name="password1" required>
+            </label>
+        </p>
+        <p>
+            <label>
+                Repeat password:<br>
+                <input type="password" name="password2" required>
+            </label>
+        </p>
+        <button type="submit">Register</button>
+    </form>
+
+    <p><a href="/login">Log in</a></p>
+    <p><a href="/">Home</a></p>
+</body>
+</html>

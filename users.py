@@ -13,7 +13,7 @@ def create_user(username, password):
         return False
 
     password_hash = generate_password_hash(password)
-    sql = "INSER INTO users (username, password_hash) VALUES (?, ?)"
+    sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
     db.execute(sql, [username, password_hash])
     return True
 

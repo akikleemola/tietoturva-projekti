@@ -10,7 +10,7 @@ app.secret_key = secrets.token_hex(32)
 
 @app.route("/")
 def index():
-    return "<h1>Muistiinpanot</h1><p>Sovellus toimii.</p>"
+    return render_template("index.html")
 
 @app.route("/register")
 def register():

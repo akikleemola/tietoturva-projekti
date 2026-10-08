@@ -174,6 +174,8 @@ def login():
             session["csrf_token"] = secrets.token_hex(32)
             return redirect("/")
         else:
+            #FLAW 5
+            #app.logger.warning("Failed login attempt for username=%r", username)
             flash("ERROR: wrong username or password.", "error")
             return redirect("/login")
         

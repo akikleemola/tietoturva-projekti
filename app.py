@@ -18,6 +18,9 @@ def check_csrf():
     if not token or token != session.get("csrf_token"):
         abort(403)
 
+@app.errorhandler(403)
+def forbidden(error):
+    return render_template("forbidden.html"), 403
 
 @app.route("/")
 def index():
@@ -27,20 +30,6 @@ def index():
         all_notes = []
 
     return render_template("index.html", notes = all_notes)
-
-
-@app.route("/note/<int:note_id>")
-def show_note(note_id):
-    require_login()
-
-    note = notes.get_note(note_id)
-    if not note:
-        abort(404)
-
-    if note["user_id"] != session["user_id"]:
-        abort(403)
-
-    return render_template("show_note.html", note=note)
 
 
 @app.route("/new_note")
@@ -62,6 +51,19 @@ def create_note():
 
     return redirect("/note/" + str(note_id))
 
+@app.route("/note/<int:note_id>")
+def show_note(note_id):
+    require_login()
+
+    note = notes.get_note(note_id)
+    if not note:
+        abort(404)
+    #FLAW 1
+    #if note["user_id"] != session["user_id"]:
+        #abort(403)
+
+    return render_template("show_note.html", note=note)
+
 @app.route("/edit_note/<int:note_id>")
 def edit_note(note_id):
     require_login()
@@ -69,9 +71,9 @@ def edit_note(note_id):
     note = notes.get_note(note_id)
     if not note:
         abort(404)
-
-    if note["user_id"] != session["user_id"]:
-        abort(403)
+    #FLAW 1
+    #if note["user_id"] != session["user_id"]:
+        #abort(403)
 
     return render_template("edit_note.html", note=note)
 
@@ -86,8 +88,9 @@ def update_note():
     if not note:
         abort(404)
 
-    if note["user_id"] != session["user_id"]:
-        abort(403)
+    #FLAW 1
+    #if note["user_id"] != session["user_id"]:
+        #abort(403)
 
     title = request.form["title"]
     content = request.form["content"]
@@ -105,8 +108,9 @@ def remove_note(note_id):
     if not note:
         abort(404)
 
-    if note["user_id"] != session["user_id"]:
-        abort(403)
+    #FLAW 1
+    #if note["user_id"] != session["user_id"]:
+        #abort(403)
 
     if request.method == "POST":
         check_csrf()

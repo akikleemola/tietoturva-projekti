@@ -146,9 +146,27 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
 
+    #FLAW 4
     if len(password1) < 4:
         flash("ERROR: Password must be at least 4 characters long", "error")
         return redirect("/register")
+
+    #if len(password1) < 15:
+    #     flash("ERROR: Password must be at least 15 characters long", "error")
+    #     return redirect("/register")
+    
+    #blocked_passwords = {
+    #     "password",
+    #     "password1",
+    #     "12345678",
+    #     "123456789012345",
+    #     "passwordpassword",
+    #     "aaaaaaaaaaaaaaa"
+    # }
+    
+    #if password1.casefold() in blocked_passwords:
+    #     flash("ERROR: This password is too common", "error")
+    #     return redirect("/register")
 
     if password1 != password2:
         flash("ERROR: Passwords do not match", "error")

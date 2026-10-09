@@ -23,9 +23,18 @@ def remove_note(note_id):
     db.execute(sql, [note_id])
 
 def find_notes(query, user_id):
+    #FLAW 3
+    #sql = f"""SELECT id, title
+    #          FROM notes
+    #          WHERE user_id = ?
+    #          AND (title LIKE '%{query}%' OR content LIKE '%{query}%')
+    #          ORDER BY id DESC"""
+
+    #return db.query(sql, [user_id])
+
     sql = """SELECT id, title
              FROM notes
-             WHERE user_id = ?
+            WHERE user_id = ?
              AND (title LIKE ? OR content LIKE ?)
              ORDER BY id DESC"""
 

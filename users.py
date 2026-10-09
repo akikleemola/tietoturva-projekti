@@ -12,7 +12,10 @@ def create_user(username, password):
     if result:
         return False
 
-    password_hash = generate_password_hash(password)
+    #FLAW 2
+    password_hash = password
+    #password_hash = generate_password_hash(password)
+
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
     db.execute(sql, [username, password_hash])
     return True
@@ -25,7 +28,10 @@ def check_login(username, password):
 
     user_id = result[0]["id"]
     password_hash = result[0]["password_hash"]
-    if check_password_hash(password_hash, password):
+
+    #FLAW 2
+    if password_hash == password:
+    #if check_password_hash(password_hash, password):
         return user_id
     else:
         return None

@@ -158,9 +158,23 @@ def create():
     #blocked_passwords = {
     #     "password",
     #     "password1",
-    #     "12345678",
-    #     "123456789012345",
+    #     "password123",
     #     "passwordpassword",
+    #     "passwordpassword1",
+    #     "password123456789",
+    #     "admin",
+    #     "adminadmin",
+    #     "123456",
+    #     "12345678",
+    #     "123456789",
+    #     "123456789012345",
+    #     "12345678901234567890",
+    #     "123456789123456789",
+    #     "qwerty",
+    #     "qwertyuiop",
+    #     "qwertyuiopasdfgh",
+    #     "qwertyqwertyqwerty",
+    #     "abc123abc123abc123",
     #     "aaaaaaaaaaaaaaa"
     # }
     
